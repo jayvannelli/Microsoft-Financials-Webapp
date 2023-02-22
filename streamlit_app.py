@@ -1,6 +1,7 @@
 import streamlit as st
 
 from streamlit_extras.colored_header import colored_header
+
 from src.data import (
     annual_income_statements,
     quarterly_income_statements,
@@ -13,14 +14,17 @@ from src.data import (
 
 def main():
     st.set_page_config("MSFT Financials", page_icon=":bar_chart:", layout="wide")
-    st.title("Microsoft Corporation Financials")
+
+    with st.sidebar:
+        st.image("images/msft-logo.png", width=200)
+        st.title("Microsoft Corporation ($MSFT) Financials")
 
     income_statement_tab, balance_sheet_tab, cash_flow_tab = st.tabs(
         ["Income Statement", "Balance Sheet", "Cash Flow"]
     )
 
     with income_statement_tab:
-        colored_header("Microsoft Corporation ($MSFT) Income Statements", description="", color_name="blue-70")
+        colored_header("Microsoft Corp. Income Statements", description="", color_name="blue-70")
 
         annual_inc_stmts = annual_income_statements()
         st.dataframe(annual_inc_stmts)
@@ -29,7 +33,7 @@ def main():
         st.dataframe(quarterly_inc_stmts)
 
     with balance_sheet_tab:
-        colored_header("Microsoft Corporation ($MSFT) Balance Sheets", description="", color_name="yellow-80")
+        colored_header("Microsoft Corp. Balance Sheets", description="", color_name="yellow-80")
 
         annual_bal_sheets = annual_balance_sheets()
         st.dataframe(annual_bal_sheets)
@@ -38,7 +42,7 @@ def main():
         st.dataframe(quarterly_bal_sheets)
 
     with cash_flow_tab:
-        colored_header("Microsoft Corporation ($MSFT) Cash Flows", description="", color_name="violet-70")
+        colored_header("Microsoft Corp. Cash Flows", description="", color_name="violet-70")
 
         annual_cf = annual_cash_flows()
         st.dataframe(annual_cf)
