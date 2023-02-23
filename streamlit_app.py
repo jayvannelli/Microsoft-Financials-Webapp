@@ -1,6 +1,8 @@
+import pandas as pd
 import streamlit as st
 
 from streamlit_extras.colored_header import colored_header
+from streamlit_extras.toggle_switch import st_toggle_switch
 
 from src.data import (
     annual_income_statements,
@@ -12,12 +14,35 @@ from src.data import (
 )
 
 
+def current_ratio(balance_sheets: pd.DataFrame) -> pd.Series:
+    return balance_sheets['totalCurrentAssets'] / balance_sheets['totalCurrentLiabilities']
+
+
+def quick_ratio(balance_sheets: pd.DataFrame) -> pd.Series:
+    return (
+            (balance_sheets['totalCurrentAssets'] - balance_sheets['inventory'])
+            / balance_sheets['totalCurrentLiabilities']
+    )
+
+
 def main():
     st.set_page_config("MSFT Financials", page_icon=":bar_chart:", layout="wide")
 
     with st.sidebar:
         st.image("images/msft-logo.png", width=200)
         st.title("Microsoft Corporation ($MSFT) Financials")
+
+        st.write("")
+        quarterly_reports_toggle = st_toggle_switch(
+            label="Display quarterly reports",
+            key="quarterly_reports_switch",
+            default_value=False,
+            label_after=False,
+            inactive_color="#D3D3D3",
+            active_color="#11567f",
+            track_color="#29B5E8",
+        )
+
 
     income_statement_tab, balance_sheet_tab, cash_flow_tab = st.tabs(
         ["Income Statement", "Balance Sheet", "Cash Flow"]
@@ -36,10 +61,39 @@ def main():
         colored_header("Microsoft Corp. Balance Sheets", description="", color_name="yellow-80")
 
         annual_bal_sheets = annual_balance_sheets()
-        st.dataframe(annual_bal_sheets)
-
         quarterly_bal_sheets = quarterly_balance_sheets()
-        st.dataframe(quarterly_bal_sheets)
+
+        st.subheader("Liquidity Ratios")
+
+        annual_current_ratio = current_ratio(annual_bal_sheets)
+        quarterly_current_ratio = current_ratio(quarterly_bal_sheets)
+
+        annual_quick_ratio = quick_ratio(annual_bal_sheets)
+        quarterly_quick_ratio = quick_ratio(quarterly_bal_sheets)
+
+        left_column, right_column = st.columns(2)
+        with left_column:
+            st.write("Current Ratio")
+
+            if quarterly_reports_toggle:
+                st.bar_chart(quarterly_current_ratio)
+            else:
+                st.bar_chart(annual_current_ratio)
+
+        with right_column:
+            st.write("Quick Ratio")
+
+            if quarterly_reports_toggle:
+                st.bar_chart(quarterly_quick_ratio)
+            else:
+                st.bar_chart(annual_quick_ratio)
+
+        with st.expander("$MSFT Annual Balance Sheets DataFrame"):
+            st.dataframe(annual_bal_sheets)
+
+        with st.expander("$MSFT Quarterly Balance Sheets DataFrame"):
+            st.dataframe(quarterly_bal_sheets)
+
 
     with cash_flow_tab:
         colored_header("Microsoft Corp. Cash Flows", description="", color_name="violet-70")
