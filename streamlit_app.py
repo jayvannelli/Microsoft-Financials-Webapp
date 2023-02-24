@@ -20,7 +20,7 @@ def current_ratio(balance_sheets: pd.DataFrame) -> pd.Series:
 
 def quick_ratio(balance_sheets: pd.DataFrame) -> pd.Series:
     return (
-            (balance_sheets['totalCurrentAssets'] - balance_sheets['inventory'])
+            (balance_sheets['cashAndShortTermInvestments'] + balance_sheets['netReceivables'])
             / balance_sheets['totalCurrentLiabilities']
     )
 
