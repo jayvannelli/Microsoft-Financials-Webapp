@@ -25,6 +25,15 @@ def quick_ratio(balance_sheets: pd.DataFrame) -> pd.Series:
     )
 
 
+def debt_to_equity(balance_sheets: pd.DataFrame) -> pd.Series:
+    return balance_sheets['longTermDebt'] / balance_sheets['totalStockholdersEquity']
+
+
+def equity_multiplier(balance_sheets: pd.DataFrame) -> pd.Series:
+    return balance_sheets['totalAssets'] / balance_sheets['totalStockholdersEquity']
+
+
+
 def main():
     st.set_page_config("MSFT Financials", page_icon=":bar_chart:", layout="wide")
 
@@ -63,16 +72,22 @@ def main():
         annual_bal_sheets = annual_balance_sheets()
         quarterly_bal_sheets = quarterly_balance_sheets()
 
-        st.subheader("Liquidity Ratios")
-
         annual_current_ratio = current_ratio(annual_bal_sheets)
         quarterly_current_ratio = current_ratio(quarterly_bal_sheets)
 
         annual_quick_ratio = quick_ratio(annual_bal_sheets)
         quarterly_quick_ratio = quick_ratio(quarterly_bal_sheets)
 
+        annual_debt_to_equity = debt_to_equity(annual_bal_sheets)
+        quarterly_debt_to_equity = debt_to_equity(quarterly_bal_sheets)
+
+        annual_equity_multiplier = equity_multiplier(annual_bal_sheets)
+        quarterly_equity_multiplier = equity_multiplier(quarterly_bal_sheets)
+
         left_column, right_column = st.columns(2)
         with left_column:
+            st.subheader("Liquidity Ratios")
+
             st.write("Current Ratio")
 
             if quarterly_reports_toggle:
@@ -80,13 +95,29 @@ def main():
             else:
                 st.bar_chart(annual_current_ratio)
 
-        with right_column:
             st.write("Quick Ratio")
 
             if quarterly_reports_toggle:
                 st.bar_chart(quarterly_quick_ratio)
             else:
                 st.bar_chart(annual_quick_ratio)
+
+        with right_column:
+            st.subheader("Leverage Ratios")
+
+            st.write("Debt/Equity ratio")
+
+            if quarterly_reports_toggle:
+                st.bar_chart(quarterly_debt_to_equity)
+            else:
+                st.bar_chart(annual_debt_to_equity)
+
+            st.write("Equity multiplier")
+
+            if quarterly_reports_toggle:
+                st.bar_chart(quarterly_equity_multiplier)
+            else:
+                st.bar_chart(annual_equity_multiplier)
 
         with st.expander("$MSFT Annual Balance Sheets DataFrame"):
             st.dataframe(annual_bal_sheets)
