@@ -1,6 +1,4 @@
-import pandas as pd
 import streamlit as st
-
 from streamlit_extras.colored_header import colored_header
 from streamlit_extras.toggle_switch import st_toggle_switch
 
