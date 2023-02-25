@@ -13,25 +13,8 @@ from src.data import (
     quarterly_cash_flows,
 )
 
-
-def current_ratio(balance_sheets: pd.DataFrame) -> pd.Series:
-    return balance_sheets['totalCurrentAssets'] / balance_sheets['totalCurrentLiabilities']
-
-
-def quick_ratio(balance_sheets: pd.DataFrame) -> pd.Series:
-    return (
-            (balance_sheets['cashAndShortTermInvestments'] + balance_sheets['netReceivables'])
-            / balance_sheets['totalCurrentLiabilities']
-    )
-
-
-def debt_to_equity(balance_sheets: pd.DataFrame) -> pd.Series:
-    return balance_sheets['longTermDebt'] / balance_sheets['totalStockholdersEquity']
-
-
-def equity_multiplier(balance_sheets: pd.DataFrame) -> pd.Series:
-    return balance_sheets['totalAssets'] / balance_sheets['totalStockholdersEquity']
-
+from src.liquidity import current_ratio, cash_ratio, quick_ratio
+from src.leverage import debt_to_equity, equity_multiplier
 
 
 def main():
@@ -51,7 +34,6 @@ def main():
             active_color="#11567f",
             track_color="#29B5E8",
         )
-
 
     income_statement_tab, balance_sheet_tab, cash_flow_tab = st.tabs(
         ["Income Statement", "Balance Sheet", "Cash Flow"]
@@ -84,6 +66,9 @@ def main():
         annual_equity_multiplier = equity_multiplier(annual_bal_sheets)
         quarterly_equity_multiplier = equity_multiplier(quarterly_bal_sheets)
 
+        annual_cash_ratio = cash_ratio(annual_bal_sheets)
+        quarterly_cash_ratio = cash_ratio(quarterly_bal_sheets)
+
         left_column, right_column = st.columns(2)
         with left_column:
             st.subheader("Liquidity Ratios")
@@ -101,6 +86,13 @@ def main():
                 st.bar_chart(quarterly_quick_ratio)
             else:
                 st.bar_chart(annual_quick_ratio)
+
+            st.write("Cash Ratio")
+
+            if quarterly_reports_toggle:
+                st.bar_chart(quarterly_cash_ratio)
+            else:
+                st.bar_chart(annual_cash_ratio)
 
         with right_column:
             st.subheader("Leverage Ratios")
@@ -124,7 +116,6 @@ def main():
 
         with st.expander("$MSFT Quarterly Balance Sheets DataFrame"):
             st.dataframe(quarterly_bal_sheets)
-
 
     with cash_flow_tab:
         colored_header("Microsoft Corp. Cash Flows", description="", color_name="violet-70")
