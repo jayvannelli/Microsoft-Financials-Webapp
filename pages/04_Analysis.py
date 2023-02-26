@@ -1,8 +1,15 @@
 import streamlit as st
 
-from src.data import annual_balance_sheets, quarterly_balance_sheets
+from src.data import (
+    annual_balance_sheets,
+    quarterly_balance_sheets,
+    annual_income_statements,
+    quarterly_income_statements,
+)
+
 from src.liquidity import cash_ratio, current_ratio, quick_ratio
 from src.leverage import debt_to_equity, equity_multiplier
+from src.profitability import gross_profit_margin, operating_profit_margin, pretax_profit_margin, net_profit_margin
 
 
 def main():
@@ -11,10 +18,75 @@ def main():
 
     annual_bal_sheets = annual_balance_sheets()
     quarterly_bal_sheets = quarterly_balance_sheets()
+    annual_inc_statements = annual_income_statements()
+    quarterly_inc_statements = quarterly_income_statements()
 
-    liquidity_ratios_tab, leverage_ratios_tab = st.tabs(
-        ["Liquidity Ratios", "Leverage Ratios"]
+    profitability_ratios_tab, liquidity_ratios_tab, leverage_ratios_tab = st.tabs(
+        ["Profitability Ratios", "Liquidity Ratios", "Leverage Ratios"]
     )
+
+    with profitability_ratios_tab:
+        st.subheader("Profitability Ratios")
+
+        left_column, right_column = st.columns(2)
+
+        with left_column:
+            col1, col2 = st.columns(2)
+            with col1:
+                st.write("Annual EPS")
+                st.bar_chart(annual_inc_statements['eps'])
+            with col2:
+                st.write("Annual EPS (diluted)")
+                st.bar_chart(annual_inc_statements['epsdiluted'])
+
+        with right_column:
+            col1, col2 = st.columns(2)
+            with col1:
+                st.write("Quarterly EPS")
+                st.bar_chart(quarterly_inc_statements['eps'])
+            with col2:
+                st.write("Quarterly EPS (diluted)")
+                st.bar_chart(quarterly_inc_statements['epsdiluted'])
+
+        annual_gross_profit_margin = gross_profit_margin(annual_inc_statements)
+        quarterly_gross_profit_margin = gross_profit_margin(quarterly_inc_statements)
+
+        with left_column:
+            st.write("Annual gross profit margin")
+            st.bar_chart(annual_gross_profit_margin)
+        with right_column:
+            st.write("Quarterly gross profit margin")
+            st.bar_chart(quarterly_gross_profit_margin)
+
+        annual_operating_profit_margin = operating_profit_margin(annual_inc_statements)
+        quarterly_operating_profit_margin = operating_profit_margin(quarterly_inc_statements)
+
+        with left_column:
+            st.write("Annual operating profit margin")
+            st.bar_chart(annual_operating_profit_margin)
+        with right_column:
+            st.write("Quarterly operating profit margin")
+            st.bar_chart(quarterly_operating_profit_margin)
+
+        annual_pretax_profit_margin = pretax_profit_margin(annual_inc_statements)
+        quarterly_pretax_profit_margin = pretax_profit_margin(quarterly_inc_statements)
+
+        with left_column:
+            st.write("Annual pretax profit margin")
+            st.bar_chart(annual_pretax_profit_margin)
+        with right_column:
+            st.write("Quarterly pretax profit margin")
+            st.bar_chart(quarterly_pretax_profit_margin)
+
+        annual_net_profit_margin = net_profit_margin(annual_inc_statements)
+        quarterly_net_profit_margin = net_profit_margin(quarterly_inc_statements)
+
+        with left_column:
+            st.write("Annual net profit margin")
+            st.bar_chart(annual_net_profit_margin)
+        with right_column:
+            st.write("Quarterly net profit margin")
+            st.bar_chart(quarterly_net_profit_margin)
 
     with liquidity_ratios_tab:
         st.subheader("Liquidity Ratios")
