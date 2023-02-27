@@ -5,11 +5,14 @@ from src.data import (
     quarterly_balance_sheets,
     annual_income_statements,
     quarterly_income_statements,
+    annual_cash_flows,
+    quarterly_cash_flows,
 )
 
 from src.liquidity import cash_ratio, current_ratio, quick_ratio
 from src.leverage import debt_to_equity, equity_multiplier
 from src.profitability import gross_profit_margin, operating_profit_margin, pretax_profit_margin, net_profit_margin
+from src.cash_flow_ratios import fcf_to_ocf
 
 
 def main():
@@ -20,9 +23,11 @@ def main():
     quarterly_bal_sheets = quarterly_balance_sheets()
     annual_inc_statements = annual_income_statements()
     quarterly_inc_statements = quarterly_income_statements()
+    annual_cf_statements = annual_cash_flows()
+    quarterly_cf_statements = quarterly_cash_flows()
 
-    profitability_ratios_tab, liquidity_ratios_tab, leverage_ratios_tab = st.tabs(
-        ["Profitability Ratios", "Liquidity Ratios", "Leverage Ratios"]
+    profitability_ratios_tab, liquidity_ratios_tab, leverage_ratios_tab, cash_flow_ratios_tab = st.tabs(
+        ["Profitability Ratios", "Liquidity Ratios", "Leverage Ratios", "Cash Flow Ratios"]
     )
 
     with profitability_ratios_tab:
@@ -148,6 +153,21 @@ def main():
         with right_column:
             st.write("Quarterly equity multiplier")
             st.bar_chart(quarterly_equity_multiplier)
+
+    with cash_flow_ratios_tab:
+        st.subheader("Cash Flow Ratios")
+
+        left_column, right_column = st.columns(2)
+
+        annual_fcf_to_ocf = fcf_to_ocf(annual_cf_statements)
+        quarterly_fcf_to_ocf = fcf_to_ocf(quarterly_cf_statements)
+
+        with left_column:
+            st.write("Annual free cash flow (fcf) to operating cash flow (ocf)")
+            st.bar_chart(annual_fcf_to_ocf)
+        with right_column:
+            st.write("Quarterly free cash flow (fcf) to operating cash flow (ocf)")
+            st.bar_chart(quarterly_fcf_to_ocf)
 
 
 if __name__ == "__main__":
