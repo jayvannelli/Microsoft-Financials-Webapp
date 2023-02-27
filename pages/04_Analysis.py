@@ -16,7 +16,7 @@ from src.cash_flow_ratios import fcf_to_ocf
 
 
 def main():
-    st.set_page_config("$MFT Analysis", page_icon=":bar_chart:", layout="wide")
+    st.set_page_config("$MSFT Analysis", page_icon=":bar_chart:", layout="wide")
     st.title("Microsoft Corp. financial analysis")
 
     annual_bal_sheets = annual_balance_sheets()
