@@ -11,14 +11,19 @@ def main():
     annual_cfs = annual_cash_flows()
     quarterly_cfs = quarterly_cash_flows()
 
-    cash_flow_col_names = annual_cfs.drop(columns=DROP_COLUMN_NAMES).columns
-    st.write(cash_flow_col_names)
+    annual_cfs_tab, quarterly_cfs_tab = st.tabs(
+        ["Annual Cash Flow Statements", "Quarterly Cash Flow Statements"]
+    )
 
-    st.write("Annual cash flow statements")
-    st.dataframe(annual_cfs)
+    with annual_cfs_tab:
+        st.write("Annual cash flow statements")
+        annual_cfs = annual_cfs.drop(columns=DROP_COLUMN_NAMES)
+        st.dataframe(annual_cfs)
 
-    st.write("Quarterly cash flow statements")
-    st.dataframe(quarterly_cfs)
+    with quarterly_cfs_tab:
+        st.write("Quarterly cash flow statements")
+        quarterly_cfs = quarterly_cfs.drop(columns=DROP_COLUMN_NAMES)
+        st.dataframe(quarterly_cfs)
 
 
 if __name__ == "__main__":

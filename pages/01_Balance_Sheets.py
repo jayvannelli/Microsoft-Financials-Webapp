@@ -1,3 +1,4 @@
+import pandas as pd
 import streamlit as st
 
 from src.data import annual_balance_sheets, quarterly_balance_sheets
@@ -11,14 +12,19 @@ def main():
     annual_bal_sheets = annual_balance_sheets()
     quarterly_bal_sheets = quarterly_balance_sheets()
 
-    balance_sheet_col_names = annual_bal_sheets.drop(columns=DROP_COLUMN_NAMES).columns
-    st.write(balance_sheet_col_names)
+    annual_bal_sheet_tab, quarterly_bal_sheet_tab = st.tabs(
+        ["Annual Balance Sheets", "Quarterly Balance Sheets"]
+    )
 
-    st.write("Annual balance sheets statements")
-    st.dataframe(annual_bal_sheets)
+    with annual_bal_sheet_tab:
+        st.write("Annual balance sheets statements")
+        annual_bal_sheets = annual_bal_sheets.drop(columns=DROP_COLUMN_NAMES)
+        st.dataframe(annual_bal_sheets)
 
-    st.write("Quarterly balance sheet statements")
-    st.dataframe(quarterly_bal_sheets)
+    with quarterly_bal_sheet_tab:
+        st.write("Quarterly balance sheet statements")
+        quarterly_bal_sheets = quarterly_bal_sheets.drop(columns=DROP_COLUMN_NAMES)
+        st.dataframe(quarterly_bal_sheets)
 
 
 if __name__ == "__main__":
