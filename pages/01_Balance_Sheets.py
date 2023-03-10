@@ -11,18 +11,17 @@ def display_balance_sheets(balance_sheets: pd.DataFrame):
         st.subheader("Assets")
         st.bar_chart(balance_sheets, y="totalAssets")
         st.bar_chart(balance_sheets, y="totalCurrentAssets")
-        st.bar_chart(balance_sheets, y="totalNonCurrentAssets")
-        st.bar_chart(balance_sheets, y="cashAndShortTermInvestments")
-        st.bar_chart(balance_sheets, y="shortTermInvestments")
-        st.bar_chart(balance_sheets, y="netReceivables")
         st.bar_chart(balance_sheets, y="otherCurrentAssets")
+        st.bar_chart(balance_sheets, y="totalNonCurrentAssets")
+        st.bar_chart(balance_sheets, y="otherNonCurrentAssets")
+        st.bar_chart(balance_sheets, y="cashAndShortTermInvestments")
+
+        st.bar_chart(balance_sheets, y="netReceivables")
         st.bar_chart(balance_sheets, y="cashAndCashEquivalents")
         st.bar_chart(balance_sheets, y="inventory")
         st.bar_chart(balance_sheets, y="propertyPlantEquipmentNet")
         st.bar_chart(balance_sheets, y="goodwill")
         st.bar_chart(balance_sheets, y="intangibleAssets")
-        st.bar_chart(balance_sheets, y="longTermInvestments")
-        st.bar_chart(balance_sheets, y="otherNonCurrentAssets")
 
     with col2:
         st.subheader("Liabilities")
@@ -30,6 +29,7 @@ def display_balance_sheets(balance_sheets: pd.DataFrame):
         st.bar_chart(balance_sheets, y="totalCurrentLiabilities")
         st.bar_chart(balance_sheets, y="totalNonCurrentLiabilities")
         st.bar_chart(balance_sheets, y="otherCurrentLiabilities")
+        st.bar_chart(balance_sheets, y="otherNonCurrentLiabilities")
         st.bar_chart(balance_sheets, y="deferredRevenue")
         st.bar_chart(balance_sheets, y="deferredRevenueNonCurrent")
         st.bar_chart(balance_sheets, y="accountPayables")
@@ -39,7 +39,6 @@ def display_balance_sheets(balance_sheets: pd.DataFrame):
         st.bar_chart(balance_sheets, y="shortTermDebt")
         st.bar_chart(balance_sheets, y="longTermDebt")
         st.bar_chart(balance_sheets, y="deferredTaxLiabilitiesNonCurrent")
-        st.bar_chart(balance_sheets, y="otherNonCurrentLiabilities")
         st.bar_chart(balance_sheets, y="deferredTaxLiabilitiesNonCurrent")
         st.bar_chart(balance_sheets, y="capitalLeaseObligations")
 
@@ -52,7 +51,11 @@ def display_balance_sheets(balance_sheets: pd.DataFrame):
         st.bar_chart(balance_sheets, y="accumulatedOtherComprehensiveIncomeLoss")
         st.bar_chart(balance_sheets, y="totalLiabilitiesAndStockholdersEquity")
         st.bar_chart(balance_sheets, y="totalLiabilitiesAndTotalEquity")
+
+        st.subheader("Investments")
         st.bar_chart(balance_sheets, y="totalInvestments")
+        st.bar_chart(balance_sheets, y="shortTermInvestments")
+        st.bar_chart(balance_sheets, y="longTermInvestments")
 
 
 def main():
