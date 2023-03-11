@@ -11,6 +11,17 @@ def main():
     annual_inc_statements = annual_income_statements()
     quarterly_inc_statements = quarterly_income_statements()
 
+    with st.sidebar:
+        st.subheader("Income statements date ranges")
+
+        st.subheader("Annual")
+        st.write(f"Start date: {annual_inc_statements.index[-1]}")
+        st.write(f"End end: {annual_inc_statements.index[0]}")
+
+        st.subheader("Quarterly")
+        st.write(f"Start date: {quarterly_inc_statements.index[-1]}")
+        st.write(f"End date: {quarterly_inc_statements.index[0]}")
+
     annual_inc_statements_tab, quarterly_inc_statements_tab = st.tabs(
         ["Annual Income Statements", "Quarterly Income Statements"]
     )

@@ -57,6 +57,17 @@ def main():
     annual_cfs = annual_cash_flows()
     quarterly_cfs = quarterly_cash_flows()
 
+    with st.sidebar:
+        st.subheader("Cash flows date ranges")
+
+        st.subheader("Annual")
+        st.write(f"Start date: {annual_cfs.index[-1]}")
+        st.write(f"End end: {annual_cfs.index[0]}")
+
+        st.subheader("Quarterly")
+        st.write(f"Start date: {quarterly_cfs.index[-1]}")
+        st.write(f"End date: {quarterly_cfs.index[0]}")
+
     annual_cfs_tab, quarterly_cfs_tab = st.tabs(
         ["Annual Cash Flow Statements", "Quarterly Cash Flow Statements"]
     )

@@ -65,6 +65,17 @@ def main():
     annual_bal_sheets = annual_balance_sheets()
     quarterly_bal_sheets = quarterly_balance_sheets()
 
+    with st.sidebar:
+        st.subheader("Balance sheets date ranges")
+
+        st.subheader("Annual")
+        st.write(f"Start date: {annual_bal_sheets.index[-1]}")
+        st.write(f"End end: {annual_bal_sheets.index[0]}")
+
+        st.subheader("Quarterly")
+        st.write(f"Start date: {quarterly_bal_sheets.index[-1]}")
+        st.write(f"End date: {quarterly_bal_sheets.index[0]}")
+
     annual_bal_sheet_tab, quarterly_bal_sheet_tab = st.tabs(
         ["Annual Balance Sheets", "Quarterly Balance Sheets"]
     )
