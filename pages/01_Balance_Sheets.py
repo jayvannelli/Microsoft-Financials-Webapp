@@ -82,12 +82,10 @@ def main():
 
     with annual_bal_sheet_tab:
         annual_bal_sheets = annual_bal_sheets.drop(columns=DROP_COLUMN_NAMES)
-
         display_balance_sheets(annual_bal_sheets)
 
     with quarterly_bal_sheet_tab:
         quarterly_bal_sheets = quarterly_bal_sheets.drop(columns=DROP_COLUMN_NAMES)
-
         display_balance_sheets(quarterly_bal_sheets)
 
 

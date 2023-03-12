@@ -73,16 +73,11 @@ def main():
     )
 
     with annual_cfs_tab:
-        st.write("Annual cash flow statements")
         annual_cfs = annual_cfs.drop(columns=DROP_COLUMN_NAMES)
-
         display_cash_flows(annual_cfs)
-        #st.dataframe(annual_cfs)
 
     with quarterly_cfs_tab:
-        st.write("Quarterly cash flow statements")
         quarterly_cfs = quarterly_cfs.drop(columns=DROP_COLUMN_NAMES)
-
         display_cash_flows(quarterly_cfs)
 
 
